@@ -42,12 +42,20 @@ nav a:hover {
 .hero {
     text-align: center;
     padding: 140px 20px;
-    background: radial-gradient(
-        circle at top,
-        #0f2a44,
-        #020617
-    );
+
+    /* Falcon Eagle + Dark Blue Tint */
+    background:
+        linear-gradient(
+            rgba(2, 6, 23, 0.80),
+            rgba(2, 6, 23, 0.90)
+        ),
+        url("https://images.unsplash.com/photo-1518791841217-8f162f1e1131");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
 
 
 .hero h2 {
