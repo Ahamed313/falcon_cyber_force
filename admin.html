@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login | Falcon Cyber Force</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:#e5e7eb;
+}
+.login-box{
+  background:#020617;
+  border:1px solid #1e293b;
+  padding:40px;
+  width:320px;
+  border-radius:10px;
+}
+h2{
+  text-align:center;
+  color:#38bdf8;
+}
+input{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  background:#0f172a;
+  border:1px solid #1e293b;
+  color:white;
+  border-radius:6px;
+}
+button{
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  background:#38bdf8;
+  color:#020617;
+  border:none;
+  font-weight:bold;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
+<script>
+function login(){
+  const user = document.getElementById("user").value;
+  const pass = document.getElementById("pass").value;
+
+  if(user==="admin" && pass==="admin123"){
+    window.location.href="dashboard.html";
+  }else{
+    alert("Invalid credentials");
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Admin Login</h2>
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+</div>
+
+</body>
+</html>
