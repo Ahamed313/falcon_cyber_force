@@ -13,9 +13,9 @@ body{
 header{
   background:#020617;
   padding:20px;
-  color:#38bdf8;
   display:flex;
   justify-content:space-between;
+  color:#38bdf8;
 }
 .container{
   padding:40px;
@@ -27,9 +27,22 @@ header{
   border-radius:10px;
   margin-bottom:20px;
 }
-a{
-  color:#38bdf8;
-  text-decoration:none;
+input, textarea{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  background:#0f172a;
+  border:1px solid #1e293b;
+  color:white;
+  border-radius:6px;
+}
+button{
+  margin-top:15px;
+  padding:12px 20px;
+  background:#38bdf8;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -37,31 +50,50 @@ a{
 
 <header>
   <h2>Falcon Cyber Force – Admin</h2>
-  <a href="admin.html">Logout</a>
+  <a href="admin.html" style="color:#38bdf8;">Logout</a>
 </header>
 
 <div class="container">
 
   <div class="card">
-    <h3>Website Status</h3>
-    <p>All systems running normally.</p>
-  </div>
+    <h3>Add Team Member</h3>
 
-  <div class="card">
-    <h3>Manage Content</h3>
-    <ul>
-      <li>Update Services</li>
-      <li>Update Team Members</li>
-      <li>Update Contact Info</li>
-    </ul>
-  </div>
+    <input id="name" placeholder="Name / Role">
+    <textarea id="desc" placeholder="Description"></textarea>
+    <input type="file" id="photo">
 
-  <div class="card">
-    <h3>Security Logs (Demo)</h3>
-    <p>No incidents detected.</p>
+    <button onclick="addMember()">Add Member</button>
   </div>
 
 </div>
+
+<script>
+function addMember(){
+  const name = document.getElementById("name").value;
+  const desc = document.getElementById("desc").value;
+  const photo = document.getElementById("photo").files[0];
+
+  if(!name || !desc || !photo){
+    alert("All fields required");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    const members = JSON.parse(localStorage.getItem("team")) || [];
+    members.push({
+      name:name,
+      desc:desc,
+      img:reader.result
+    });
+    localStorage.setItem("team", JSON.stringify(members));
+    alert("Team member added!");
+    document.getElementById("name").value="";
+    document.getElementById("desc").value="";
+  };
+  reader.readAsDataURL(photo);
+}
+</script>
 
 </body>
 </html>
