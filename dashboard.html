@@ -88,6 +88,18 @@ img{
 </div>
 
 <script>
+// Load demo team members if not exist
+if(!localStorage.getItem("team")){
+  const demoTeam = [
+    {name:"Ahsan Hossain", desc:"Monitors threats, analyzes alerts, responds to incidents in real-time.", img:"https://via.placeholder.com/80?text=A"},
+    {name:"Mariam Rahman", desc:"Ethical hacker focused on finding vulnerabilities before attackers exploit them.", img:"https://via.placeholder.com/80?text=M"},
+    {name:"Tanvir Islam", desc:"Manages SIEM tools, detection rules, and security automation inside the SOC.", img:"https://via.placeholder.com/80?text=T"},
+    {name:"Nabila Sultana", desc:"Tracks malware, attack trends, and adversary techniques to keep the team ahead of cyber threats.", img:"https://via.placeholder.com/80?text=N"},
+    {name:"Rafiq Karim", desc:"Leads incident handling, containment, recovery, and post-incident analysis.", img:"https://via.placeholder.com/80?text=R"}
+  ];
+  localStorage.setItem("team", JSON.stringify(demoTeam));
+}
+
 let team = JSON.parse(localStorage.getItem("team")) || [];
 const membersDiv = document.getElementById("members");
 
@@ -112,6 +124,7 @@ function addMember(){
     save();
     document.getElementById("name").value="";
     document.getElementById("desc").value="";
+    document.getElementById("photo").value="";
   };
   reader.readAsDataURL(file);
 }
@@ -152,7 +165,6 @@ function render(){
         <img src="${m.img}">
         <h4>${m.name}</h4>
         <p>${m.desc}</p>
-
         <input type="file" onchange="updatePhoto(${i}, this)">
         <br>
         <button class="edit" onclick="editMember(${i})">Edit</button>
