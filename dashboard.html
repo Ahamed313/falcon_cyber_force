@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Admin Dashboard</title>
+<title>Admin Dashboard | Falcon Cyber Force</title>
 <style>
 body{
   margin:0;
@@ -25,7 +25,7 @@ header{
   border:1px solid #1e293b;
   padding:25px;
   border-radius:10px;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
 input, textarea{
   width:100%;
@@ -37,62 +37,132 @@ input, textarea{
   border-radius:6px;
 }
 button{
-  margin-top:15px;
-  padding:12px 20px;
-  background:#38bdf8;
+  padding:10px 16px;
+  margin-top:10px;
+  margin-right:5px;
   border:none;
-  font-weight:bold;
   cursor:pointer;
+  font-weight:bold;
+}
+.add{ background:#38bdf8; }
+.edit{ background:#22c55e; }
+.delete{ background:#ef4444; color:white; }
+img{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-top:10px;
+}
+.member{
+  border-top:1px solid #1e293b;
+  padding-top:20px;
+  margin-top:20px;
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h2>Falcon Cyber Force – Admin</h2>
+  <h2>Falcon Cyber Force – Admin Panel</h2>
   <a href="admin.html" style="color:#38bdf8;">Logout</a>
 </header>
 
 <div class="container">
 
+  <!-- ADD NEW MEMBER -->
   <div class="card">
-    <h3>Add Team Member</h3>
-
+    <h3>Add New Team Member</h3>
     <input id="name" placeholder="Name / Role">
     <textarea id="desc" placeholder="Description"></textarea>
     <input type="file" id="photo">
+    <button class="add" onclick="addMember()">Add Member</button>
+  </div>
 
-    <button onclick="addMember()">Add Member</button>
+  <!-- EXISTING MEMBERS -->
+  <div class="card">
+    <h3>Manage Team Members</h3>
+    <div id="members"></div>
   </div>
 
 </div>
 
 <script>
+let team = JSON.parse(localStorage.getItem("team")) || [];
+const membersDiv = document.getElementById("members");
+
+function save(){
+  localStorage.setItem("team", JSON.stringify(team));
+  render();
+}
+
 function addMember(){
   const name = document.getElementById("name").value;
   const desc = document.getElementById("desc").value;
-  const photo = document.getElementById("photo").files[0];
+  const file = document.getElementById("photo").files[0];
 
-  if(!name || !desc || !photo){
+  if(!name || !desc || !file){
     alert("All fields required");
     return;
   }
 
   const reader = new FileReader();
-  reader.onload = function(){
-    const members = JSON.parse(localStorage.getItem("team")) || [];
-    members.push({
-      name:name,
-      desc:desc,
-      img:reader.result
-    });
-    localStorage.setItem("team", JSON.stringify(members));
-    alert("Team member added!");
+  reader.onload = () => {
+    team.push({name, desc, img:reader.result});
+    save();
     document.getElementById("name").value="";
     document.getElementById("desc").value="";
   };
-  reader.readAsDataURL(photo);
+  reader.readAsDataURL(file);
 }
+
+function deleteMember(i){
+  if(confirm("Delete this member?")){
+    team.splice(i,1);
+    save();
+  }
+}
+
+function editMember(i){
+  const newName = prompt("Edit Name / Role", team[i].name);
+  const newDesc = prompt("Edit Description", team[i].desc);
+  if(newName && newDesc){
+    team[i].name = newName;
+    team[i].desc = newDesc;
+    save();
+  }
+}
+
+function updatePhoto(i, input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    team[i].img = reader.result;
+    save();
+  };
+  reader.readAsDataURL(file);
+}
+
+function render(){
+  membersDiv.innerHTML="";
+  team.forEach((m,i)=>{
+    membersDiv.innerHTML += `
+      <div class="member">
+        <img src="${m.img}">
+        <h4>${m.name}</h4>
+        <p>${m.desc}</p>
+
+        <input type="file" onchange="updatePhoto(${i}, this)">
+        <br>
+        <button class="edit" onclick="editMember(${i})">Edit</button>
+        <button class="delete" onclick="deleteMember(${i})">Delete</button>
+      </div>
+    `;
+  });
+}
+
+render();
 </script>
 
 </body>
