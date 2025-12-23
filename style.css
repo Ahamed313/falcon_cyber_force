@@ -11,7 +11,7 @@ body {
 }
 
 body {
-  background-image: url("images/cyber-bg.png");
+  background-image: url("images/cyber-bg.png"); /* images folder & filename check করো */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
