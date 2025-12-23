@@ -11,12 +11,13 @@ body {
 }
 
 body {
-  background-image: url("images/cyber-bg.png"); /* images folder & filename check করো */
+  background-image: url("https://raw.githubusercontent.com/Ahamed313/falcon_cyber_force/main/images/cyber-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
 
 /* ================= HEADER ================= */
 
